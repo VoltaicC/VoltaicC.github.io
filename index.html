@@ -1,7 +1,64 @@
 <!DOCTYPE html>
+
+<style>
+    body {
+        background-color: #282a36;
+        color: #f8f8f2;
+    }
+</style>
 <html>
+
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+
+
+    <form id="form" onsubmit="return false;">
+        <label>Enter your hourly rate: </label>
+        <input type="text" placeholder="Hourly Rate" id="inputHourlyRate" /> <br>
+        <label>Enter number of hours you will work today: </label>
+        <input type="text" placeholder="Hours Working" id="inputHoursWorking" /> <br>
+        <label>Enter number of minutes you've worked today: </label>
+        <input type="text" placeholder="Minutes Worked" value="0" id="inputMinutesWorked" /> <br>
+        <input type="submit" onclick="workNums();" />
+
+    </form>
+
+    <script>
+        function workNums() {
+            var hourlyRate = document.getElementById("inputHourlyRate").value;
+            hourlyRate = parseFloat(hourlyRate);
+            var hoursWorking = document.getElementById("inputHoursWorking").value;
+            hoursWorking = parseFloat(hoursWorking);
+            var minutesWorked = document.getElementById("inputMinutesWorked").value;
+            minutesWorked = parseFloat(minutesWorked);
+            alert(hourlyRate + hoursWorking + minutesWorked);
+
+            moneyMade(minutesWorked)
+        }
+
+        function moneyMade(minutesWorked) {
+            var i = minutesWorked;
+
+            var interval = setInterval(increment, 1000);
+
+            function increment() {
+                i = i % 360 + 1;
+                document.getElementById("pmoney").innerHTML = i;
+            }
+
+        }
+
+    </script>
+
+
+
+
+    <h2>Howdy</h2>
+
+
+
+    <p id="pmoney"></p>
+
+
 </body>
+
 </html>
