@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<!-- Make NaN checks -->
 <style>
     body {
         background-color: #282a36;
@@ -19,10 +19,10 @@
         <label>Enter number of minutes you've worked today: </label>
         <input type="text" placeholder="Minutes Worked" value="0" id="inputMinutesWorked" /> <br>
         <input type="submit" onclick="workNums();" />
-
     </form>
 
     <script>
+
         function workNums() {
             var hourlyRate = document.getElementById("inputHourlyRate").value;
             hourlyRate = parseFloat(hourlyRate);
@@ -30,22 +30,31 @@
             hoursWorking = parseFloat(hoursWorking);
             var minutesWorked = document.getElementById("inputMinutesWorked").value;
             minutesWorked = parseFloat(minutesWorked);
-            alert(hourlyRate + hoursWorking + minutesWorked);
-
-            moneyMade(minutesWorked)
+            utilFunc(hourlyRate, hoursWorking, minutesWorked);
         }
 
-        function moneyMade(minutesWorked) {
-            var i = minutesWorked;
+        function utilFunc(hourlyRate, hoursWorking, minutesWorked) {
+            setInterval(function () {
+                moneyUp(minutesWorked);
+                percentDone(hoursWorking, minutesWorked)
+                minutesWorked++;
 
-            var interval = setInterval(increment, 1000);
+            }, 1000);
 
-            function increment() {
-                i = i % 360 + 1;
-                document.getElementById("pmoney").innerHTML = i;
+            async function moneyUp(minutesWorked) {
+                document.getElementById("pMoneySoFar").innerHTML = minutesWorked;
+
+            }
+
+            async function percentDone(hoursWorking, minutesWorked) {
+                document.getElementById("pPercentDone").innerHTML = minutesWorked;
+
+
             }
 
         }
+
+
 
     </script>
 
@@ -56,7 +65,8 @@
 
 
 
-    <p id="pmoney"></p>
+    <p id="pMoneySoFar"></p>
+    <p id="pPercentDone"></p>
 
 
 </body>
