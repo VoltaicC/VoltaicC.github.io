@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<!-- Make NaN checks -->
+<!-- TODO: Progress bar with confetti at completion and at checkpoints https://youtu.be/YrH3DBsz4LA -->
+<!-- dropdown menu for backgrounds -->
+<!-- generic gif of people working scrolls by while working -->
+<!-- motivation button that cycles through inspirational messages every time you click it -->
+
 <style>
     body {
         background-color: #282a36;
         color: #f8f8f2;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        gap: 10px;
+        /* background-color: #2b2c38; */
+        padding: 10px;
+    }
+
+    .grid-container>div {
+        background-color: #44475a;
+        text-align: center;
+        padding: 20px 0;
+        font-size: 30px;
     }
 </style>
 <html>
@@ -13,43 +32,93 @@
 
     <form id="form" onsubmit="return false;">
         <label>Enter your hourly rate: </label>
-        <input type="text" placeholder="Hourly Rate" id="inputHourlyRate" /> <br>
+        <input type="text" placeholder="Hourly Rate" value="0" id="inputHourlyRate" /> <br>
         <label>Enter number of hours you will work today: </label>
-        <input type="text" placeholder="Hours Working" id="inputHoursWorking" /> <br>
+        <input type="text" placeholder="Hours Working" value="0" id="inputHoursWorking" /> <br>
         <label>Enter number of minutes you've worked today: </label>
         <input type="text" placeholder="Minutes Worked" value="0" id="inputMinutesWorked" /> <br>
+        <label>Enter number of hours you've worked today: </label>
+        <input type="text" placeholder="Hours Worked" value="0" id="inputHoursWorked" /> <br>
         <input type="submit" onclick="workNums();" />
     </form>
 
     <script>
 
         function workNums() {
+
+            // Take in and validate hourly rate
             var hourlyRate = document.getElementById("inputHourlyRate").value;
             hourlyRate = parseFloat(hourlyRate);
-            var hoursWorking = document.getElementById("inputHoursWorking").value;
-            hoursWorking = parseFloat(hoursWorking);
-            var minutesWorked = document.getElementById("inputMinutesWorked").value;
-            minutesWorked = parseFloat(minutesWorked);
-            utilFunc(hourlyRate, hoursWorking, minutesWorked);
-        }
-
-        function utilFunc(hourlyRate, hoursWorking, minutesWorked) {
-            setInterval(function () {
-                moneyUp(minutesWorked);
-                percentDone(hoursWorking, minutesWorked)
-                minutesWorked++;
-
-            }, 1000);
-
-            async function moneyUp(minutesWorked) {
-                document.getElementById("pMoneySoFar").innerHTML = minutesWorked;
-
+            if (isNaN(hourlyRate)) {
+                alert("Hourly Rate must be a number.");
+                return;
+            }
+            else if (hourlyRate < 0) {
+                alert("No, you are not paying to work.");
+                return;
             }
 
-            async function percentDone(hoursWorking, minutesWorked) {
-                document.getElementById("pPercentDone").innerHTML = minutesWorked;
+            // Take in and validate number of hours working
+            var hoursWorking = document.getElementById("inputHoursWorking").value;
+            hoursWorking = parseFloat(hoursWorking);
+            if (isNaN(hoursWorking)) {
+                alert("The hours you are working today must be over 0");
+                return;
+            }
+            else if (hoursWorking <= 0) {
+                alert("You need more hours");
+                return;
+            }
 
+            // Take in and validate number of minutes worked
+            var minutesWorked = document.getElementById("inputMinutesWorked").value;
+            minutesWorked = parseFloat(minutesWorked);
+            var hoursWorked = document.getElementById("inputHoursWorked").value;
+            hoursWorked = parseFloat(hoursWorked);
+            utilFunc(hourlyRate, hoursWorking, minutesWorked, hoursWorked);
+            document.getElementById("form").style['display'] = 'none';
+            document.getElementById("stats").style['display'] = 'grid';
+        }
 
+        function utilFunc(hourlyRate, hoursWorking, minutesWorked, hoursWorked) {
+            secondsWorked = minutesWorked * 60;
+            secondsWorked = secondsWorked + (hoursWorked * 3600);
+
+            //Run the "function" once without delay
+            updateMoneyMade(secondsWorked, hourlyRate);
+            updatePercentDone(hoursWorking, secondsWorked);
+            updateSecondsWorked(secondsWorked);
+            updateSecondsUntilFreedom(secondsWorked, hoursWorking);
+            secondsWorked++;
+
+            //The function that updates all value in the grid
+            setInterval(function () {
+                updateMoneyMade(secondsWorked, hourlyRate);
+                updatePercentDone(hoursWorking, secondsWorked);
+                updateSecondsWorked(secondsWorked);
+                updateSecondsUntilFreedom(secondsWorked, hoursWorking);
+                secondsWorked++;
+            }, 1000);
+
+            async function updateMoneyMade(secondsWorked, hourlyRate) {
+                document.getElementById("pMoneySoFar").innerHTML = "$" + (secondsWorked * (hourlyRate / 3600)).toFixed(2);
+            }
+
+            async function updateSecondsWorked(secondsWorked) {
+                document.getElementById("pSecondsWorked").innerHTML = secondsWorked;
+            }
+
+            async function updateSecondsUntilFreedom(secondsWorked, hoursWorking) {
+                document.getElementById("pSecondsUntilFreedom").innerHTML = (hoursWorking*3600) - secondsWorked;
+            }
+
+            async function updatePercentDone(hoursWorking, secondsWorked) {
+                var percentDone = ((100 * (secondsWorked / (hoursWorking * 3600))).toFixed(4));
+                if (percentDone > 100) {
+                    document.getElementById("pPercentDone").innerHTML = "YOU ARE FREE";
+                    return;
+                }
+                document.getElementById("pPercentDone").innerHTML = "Percent done: " + percentDone + "%";
             }
 
         }
@@ -61,13 +130,27 @@
 
 
 
-    <h2>Howdy</h2>
+    <h1 style="text-align: center;">Working hard? Or hardly working?</h2>
 
 
-
-    <p id="pMoneySoFar"></p>
-    <p id="pPercentDone"></p>
-
+    <div class="grid-container" id="stats" style="display: none;">
+        <div>
+            <p>Money Made</p>
+            <p id="pMoneySoFar"></p>
+        </div>
+        <div>
+            <p>Percent Complete</p>
+            <p id="pPercentDone"></p>
+        </div>
+        <div>
+            <p>Seconds Worked</p>
+            <p id="pSecondsWorked"></p>
+        </div>
+        <div>
+            <p>Seconds Until Freedom</p>
+            <p id="pSecondsUntilFreedom"></p>
+        </div>
+    </div>
 
 </body>
 
