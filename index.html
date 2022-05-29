@@ -3,6 +3,12 @@
 <!-- dropdown menu for backgrounds -->
 <!-- generic gif of people working scrolls by while working -->
 <!-- motivation button that cycles through inspirational messages every time you click it -->
+<!-- Hours remaining -->
+<!-- Minutes remaining -->
+<!-- Hours, minutes, seconds remaining. -->
+<!-- Take a break button that takes you to a random fun website -->
+<!-- Bubblewrap button -->
+
 
 <style>
     body {
@@ -27,10 +33,15 @@
 </style>
 <html>
 
+<head>
+    <title>Time Goes By</title>
+    <link rel="icon" type="image/x-icon" href="image/BiggerClassyNessie.png">
+</head>
+
 <body>
 
 
-    <form id="form" onsubmit="return false;">
+    <form id="form" style="font-size: 2em;" onsubmit="return false;">
         <label>Enter your hourly rate: </label>
         <input type="text" placeholder="Hourly Rate" value="0" id="inputHourlyRate" /> <br>
         <label>Enter number of hours you will work today: </label>
@@ -87,29 +98,40 @@
             //Run the "function" once without delay
             updateMoneyMade(secondsWorked, hourlyRate);
             updatePercentDone(hoursWorking, secondsWorked);
-            updateSecondsWorked(secondsWorked);
+            updateSecondsWorked(secondsWorked, hoursWorking);
             updateSecondsUntilFreedom(secondsWorked, hoursWorking);
             secondsWorked++;
 
             //The function that updates all value in the grid
             setInterval(function () {
-                updateMoneyMade(secondsWorked, hourlyRate);
+                updateMoneyMade(secondsWorked, hourlyRate, hoursWorking);
                 updatePercentDone(hoursWorking, secondsWorked);
-                updateSecondsWorked(secondsWorked);
+                updateSecondsWorked(secondsWorked, hoursWorking);
                 updateSecondsUntilFreedom(secondsWorked, hoursWorking);
                 secondsWorked++;
             }, 1000);
 
-            async function updateMoneyMade(secondsWorked, hourlyRate) {
+            async function updateMoneyMade(secondsWorked, hourlyRate, hoursWorking) {
+                if (secondsWorked > (hoursWorking*3600)){
+                    return;
+                }
                 document.getElementById("pMoneySoFar").innerHTML = "$" + (secondsWorked * (hourlyRate / 3600)).toFixed(2);
             }
 
-            async function updateSecondsWorked(secondsWorked) {
+            async function updateSecondsWorked(secondsWorked, hoursWorking) {
+                if (secondsWorked > (hoursWorking * 3600)){
+                    return;
+                }
                 document.getElementById("pSecondsWorked").innerHTML = secondsWorked;
             }
 
             async function updateSecondsUntilFreedom(secondsWorked, hoursWorking) {
-                document.getElementById("pSecondsUntilFreedom").innerHTML = (hoursWorking*3600) - secondsWorked;
+                var secondsUntilFree = (hoursWorking*3600) - secondsWorked;
+                if (secondsUntilFree < 0){
+                    document.getElementById("pSecondsUntilFreedom").innerHTML = "YOU ARE FREE";
+                    return;
+                }
+                document.getElementById("pSecondsUntilFreedom").innerHTML = secondsUntilFree;
             }
 
             async function updatePercentDone(hoursWorking, secondsWorked) {
@@ -150,6 +172,9 @@
             <p>Seconds Until Freedom</p>
             <p id="pSecondsUntilFreedom"></p>
         </div>
+        <!-- <div>
+            <p id="motivation">MOTIVATE</p>
+        </div> -->
     </div>
 
 </body>
