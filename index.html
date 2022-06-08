@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<!-- TODO: Progress bar with confetti at completion and at checkpoints https://youtu.be/YrH3DBsz4LA -->
-<!-- dropdown menu for backgrounds -->
-<!-- generic gif of people working scrolls by while working -->
+<!-- TODO: confetti at completion and at checkpoints https://youtu.be/YrH3DBsz4LA -->
 <!-- motivation button that cycles through inspirational messages every time you click it -->
 <!-- Hours remaining -->
 <!-- Minutes remaining -->
@@ -16,19 +14,37 @@
         color: #f8f8f2;
     }
 
+
+
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: inherit;
+        border: 0px solid green;
+    }
+
+
+
+
     .grid-container {
         display: grid;
         grid-template-columns: auto auto auto auto;
-        gap: 10px;
+        gap: .8em;
         /* background-color: #2b2c38; */
-        padding: 10px;
+        padding-left: 1em;
+        padding-right: 1em;
+
     }
 
     .grid-container>div {
         background-color: #44475a;
+        height: 10vw;
+        width: 24vw;
+        align-items: center;
         text-align: center;
-        padding: 20px 0;
-        font-size: 30px;
+        font-size: 1.5vw;
+
     }
 </style>
 <html>
@@ -41,19 +57,35 @@
 <body>
 
 
+
     <form id="form" style="font-size: 2em;" onsubmit="return false;">
         <label>Enter your hourly rate: </label>
         <input type="text" placeholder="Hourly Rate" value="0" id="inputHourlyRate" /> <br>
         <label>Enter number of hours you will work today: </label>
-        <input type="text" placeholder="Hours Working" value="0" id="inputHoursWorking" /> <br>
+        <input type="text" placeholder="Hours Working" value="8" id="inputHoursWorking" /> <br>
         <label>Enter number of minutes you've worked today: </label>
         <input type="text" placeholder="Minutes Worked" value="0" id="inputMinutesWorked" /> <br>
         <label>Enter number of hours you've worked today: </label>
-        <input type="text" placeholder="Hours Worked" value="0" id="inputHoursWorked" /> <br>
+        <input type="text" placeholder="Hours Worked" value="4" id="inputHoursWorked" /> <br>
         <input type="submit" onclick="workNums();" />
     </form>
 
     <script>
+        function changeBG() {
+
+            if (document.getElementById("backgrounds").value == "defaultBG") {
+                document.body.style.backgroundColor = "#282a36";
+            }
+            else if (document.getElementById("backgrounds").value == "White") {
+                document.body.style.backgroundColor = "#FFFFFF";
+            }
+            else if (document.getElementById("backgrounds").value == "Black") {
+                document.body.style.backgroundColor = "#000000";
+            }
+            else if (document.getElementById("backgrounds").value == "reeses") {
+                document.body.style.backgroundImage = "url('image/biggerclassynessie.png')";
+            }
+        }
 
         function workNums() {
 
@@ -96,11 +128,11 @@
             secondsWorked = secondsWorked + (hoursWorked * 3600);
 
             //Run the "function" once without delay
-            updateMoneyMade(secondsWorked, hourlyRate);
-            updatePercentDone(hoursWorking, secondsWorked);
-            updateSecondsWorked(secondsWorked, hoursWorking);
-            updateSecondsUntilFreedom(secondsWorked, hoursWorking);
-            secondsWorked++;
+            // updateMoneyMade(secondsWorked, hourlyRate);
+            // updatePercentDone(hoursWorking, secondsWorked);
+            // updateSecondsWorked(secondsWorked, hoursWorking);
+            // updateSecondsUntilFreedom(secondsWorked, hoursWorking);
+            // secondsWorked++;
 
             //The function that updates all value in the grid
             setInterval(function () {
@@ -108,40 +140,66 @@
                 updatePercentDone(hoursWorking, secondsWorked);
                 updateSecondsWorked(secondsWorked, hoursWorking);
                 updateSecondsUntilFreedom(secondsWorked, hoursWorking);
+                updateTotalTimeWorked(secondsWorked);
+                updateTotalTimeRemaining(secondsWorked, hoursWorking);
                 secondsWorked++;
             }, 1000);
 
-            async function updateMoneyMade(secondsWorked, hourlyRate, hoursWorking) {
-                if (secondsWorked > (hoursWorking*3600)){
+            function updateMoneyMade(secondsWorked, hourlyRate, hoursWorking) {
+                if (secondsWorked > (hoursWorking * 3600)) {
                     return;
                 }
                 document.getElementById("pMoneySoFar").innerHTML = "$" + (secondsWorked * (hourlyRate / 3600)).toFixed(2);
             }
 
-            async function updateSecondsWorked(secondsWorked, hoursWorking) {
-                if (secondsWorked > (hoursWorking * 3600)){
+            function updateSecondsWorked(secondsWorked, hoursWorking) {
+                if (secondsWorked > (hoursWorking * 3600)) {
                     return;
                 }
                 document.getElementById("pSecondsWorked").innerHTML = secondsWorked;
             }
 
-            async function updateSecondsUntilFreedom(secondsWorked, hoursWorking) {
-                var secondsUntilFree = (hoursWorking*3600) - secondsWorked;
-                if (secondsUntilFree < 0){
+            function updateSecondsUntilFreedom(secondsWorked, hoursWorking) {
+                var secondsUntilFree = (hoursWorking * 3600) - secondsWorked;
+                if (secondsUntilFree < 0) {
                     document.getElementById("pSecondsUntilFreedom").innerHTML = "YOU ARE FREE";
                     return;
                 }
                 document.getElementById("pSecondsUntilFreedom").innerHTML = secondsUntilFree;
             }
 
-            async function updatePercentDone(hoursWorking, secondsWorked) {
+            function updatePercentDone(hoursWorking, secondsWorked) {
                 var percentDone = ((100 * (secondsWorked / (hoursWorking * 3600))).toFixed(4));
+                updateProgressBar(percentDone);
                 if (percentDone > 100) {
                     document.getElementById("pPercentDone").innerHTML = "YOU ARE FREE";
                     return;
                 }
                 document.getElementById("pPercentDone").innerHTML = "Percent done: " + percentDone + "%";
             }
+
+
+            function updateProgressBar(percentDone) {
+                //set progress bar value to percentDone
+                document.getElementById("progressBar").value = percentDone;
+            }
+
+            function updateTotalTimeWorked(secondsWorked) {
+                var hoursWorked = Math.floor(secondsWorked / 3600);
+                var minutesWorked = Math.floor((secondsWorked % 3600) / 60);
+                document.getElementById("pTotalTimeWorked").innerHTML = hoursWorked + " hours " + minutesWorked + " minutes " + (secondsWorked % 60) + " seconds";
+            }
+
+            function updateTotalTimeRemaining(secondsWorked, hoursWorking) {
+                var secondsUntilFree = (hoursWorking * 3600) - secondsWorked;
+                var hoursUntilFree = Math.floor(secondsUntilFree / 3600);
+                var minutesUntilFree = Math.floor((secondsUntilFree % 3600) / 60);
+                document.getElementById("pTotalTimeRemaining").innerHTML = hoursUntilFree + " hours " + minutesUntilFree + " minutes " + (secondsUntilFree % 60) + " seconds";
+
+            }
+
+            
+
 
         }
 
@@ -152,31 +210,115 @@
 
 
 
-    <h1 style="text-align: center;">Working hard? Or hardly working?</h2>
+    <h1 style="text-align: center;">Working hard? Or hardly working?</h1>
+
 
 
     <div class="grid-container" id="stats" style="display: none;">
         <div>
+            <div class="center" style="flex-direction: column;">
             <p>Money Made</p>
             <p id="pMoneySoFar"></p>
         </div>
+        </div>
+
         <div>
             <p>Percent Complete</p>
             <p id="pPercentDone"></p>
         </div>
+
         <div>
             <p>Seconds Worked</p>
             <p id="pSecondsWorked"></p>
         </div>
+
         <div>
             <p>Seconds Until Freedom</p>
             <p id="pSecondsUntilFreedom"></p>
         </div>
-        <!-- <div>
-            <p id="motivation">MOTIVATE</p>
-        </div> -->
+
+        <div>
+            
+            <div class="center" style="flex-direction: column;">
+                <button id="motivationButton" onclick="motivate()" style="font-size: 1.5vw; color: #f8f8f2; background-color: #44475a;">Motivate</button>
+            </div>
+        </div>
+
+        <div>
+            <div class="center">
+                <progress id="progressBar" value="0" max="100" style="width: 80%; position: inherit;"></progress>
+            </div>
+        </div>
+
+        <div>
+            <p>Total Time Worked</p>
+            <p id="pTotalTimeWorked"></p>
+        </div>
+
+        <div>
+            <p>Total Time Remaining</p>
+            <p id="pTotalTimeRemaining"></p>
+        </div>
+
+        <div>
+            <p>testerooo</p>
+        </div>
+
+        <div>
+            <div class="center">
+                <form>
+                    <select name="backgrounds" id="backgrounds" style="display: block; text-align: center;">
+                        <option value="defaultBG">Default</option>
+                        <option value="White">White</option>
+                        <option value="Black">Black</option>
+                        <option value="reeses">Reeses</option>
+                    </select>
+                    <input type="button" value="Change" onclick="changeBG();" />
+                </form>
+            </div>
+        </div>
+
     </div>
 
 </body>
 
+
 </html>
+
+<script>
+    function motivate() {
+                var motivation = Math.floor(Math.random() * 10);
+                console.log(motivation);
+                if (motivation == 0) {
+                    document.getElementById("motivationButton").innerHTM = "You are doing great!";
+                }
+                else if (motivation == 1) {
+                    document.getElementById("motivationButton").innerHTML = "You got this!";
+                }
+                else if (motivation == 2) {
+                    document.getElementById("motivationButton").innerHTML = "Fantastic!";
+                }
+                else if (motivation == 3) {
+                    document.getElementById("motivationButton").innerHTML = "Keep at it!";
+                }
+                else if (motivation == 4) {
+                    document.getElementById("motivationButton").innerHTML = "You're beautiful!";
+                }
+                else if (motivation == 5) {
+                    document.getElementById("motivationButton").innerHTML = "Onwards and upwards!";
+                }
+                else if (motivation == 6) {
+                    document.getElementById("motivationButton").innerHTML = "Perfection!";
+                }
+                else if (motivation == 7) {
+                    document.getElementById("motivationButton").innerHTML = "So good!";
+                }
+                else if (motivation == 8) {
+                    document.getElementById("motivationButton").innerHTML = "Great job!";
+                }
+                else if (motivation == 9) {
+                    document.getElementById("motivationButton").innerHTML = "I'm proud of you!";
+                }
+
+            }
+</script>
