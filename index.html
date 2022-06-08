@@ -75,6 +75,7 @@
 
             if (document.getElementById("backgrounds").value == "defaultBG") {
                 document.body.style.backgroundColor = "#282a36";
+                document.body.style.backgroundImage = "none";
             }
             else if (document.getElementById("backgrounds").value == "White") {
                 document.body.style.backgroundColor = "#FFFFFF";
@@ -82,7 +83,7 @@
             else if (document.getElementById("backgrounds").value == "Black") {
                 document.body.style.backgroundColor = "#000000";
             }
-            else if (document.getElementById("backgrounds").value == "reeses") {
+            else if (document.getElementById("backgrounds").value == "nessie") {
                 document.body.style.backgroundImage = "url('image/biggerclassynessie.png')";
             }
         }
@@ -216,10 +217,10 @@
 
     <div class="grid-container" id="stats" style="display: none;">
         <div>
-            <div class="center" style="flex-direction: column;">
+            
             <p>Money Made</p>
             <p id="pMoneySoFar"></p>
-        </div>
+        
         </div>
 
         <div>
@@ -246,7 +247,7 @@
 
         <div>
             <div class="center">
-                <progress id="progressBar" value="0" max="100" style="width: 80%; position: inherit;"></progress>
+                <progress id="progressBar" value="0" max="100" style="width: 80%; height: 40%; position: inherit;"></progress>
             </div>
         </div>
 
@@ -267,7 +268,7 @@
                         <option value="defaultBG">Default</option>
                         <option value="White">White</option>
                         <option value="Black">Black</option>
-                        <option value="reeses">Reeses</option>
+                        <option value="nessie">Nessie</option>
                     </select>
                     <input type="button" value="Change" onclick="changeBG();" />
                 </form>
