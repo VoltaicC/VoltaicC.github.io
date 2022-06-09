@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<!-- COLOR PICKER FOR BACKGROUND AND DIVS -->
+<!-- break timer -->
+<!-- Daily mistakes counter -->
 <!-- TODO: confetti at completion and at checkpoints https://youtu.be/YrH3DBsz4LA -->
-<!-- motivation button that cycles through inspirational messages every time you click it -->
 <!-- Hours remaining -->
 <!-- Minutes remaining -->
-<!-- Hours, minutes, seconds remaining. -->
 <!-- Take a break button that takes you to a random fun website -->
 <!-- Bubblewrap button -->
 
@@ -60,7 +61,7 @@
 
     <form id="form" style="font-size: 2em;" onsubmit="return false;">
         <label>Enter your hourly rate: </label>
-        <input type="text" placeholder="Hourly Rate" value="0" id="inputHourlyRate" /> <br>
+        <input type="text" placeholder="Hourly Rate" value="17" id="inputHourlyRate" /> <br>
         <label>Enter number of hours you will work today: </label>
         <input type="text" placeholder="Hours Working" value="8" id="inputHoursWorking" /> <br>
         <label>Enter number of minutes you've worked today: </label>
@@ -141,7 +142,7 @@
                 updatePercentDone(hoursWorking, secondsWorked);
                 updateSecondsWorked(secondsWorked, hoursWorking);
                 updateSecondsUntilFreedom(secondsWorked, hoursWorking);
-                updateTotalTimeWorked(secondsWorked);
+
                 updateTotalTimeRemaining(secondsWorked, hoursWorking);
                 secondsWorked++;
             }, 1000);
@@ -172,6 +173,7 @@
             function updatePercentDone(hoursWorking, secondsWorked) {
                 var percentDone = ((100 * (secondsWorked / (hoursWorking * 3600))).toFixed(4));
                 updateProgressBar(percentDone);
+                updateTotalTimeWorked(secondsWorked, percentDone);
                 if (percentDone > 100) {
                     document.getElementById("pPercentDone").innerHTML = "YOU ARE FREE";
                     return;
@@ -185,21 +187,27 @@
                 document.getElementById("progressBar").value = percentDone;
             }
 
-            function updateTotalTimeWorked(secondsWorked) {
+            function updateTotalTimeWorked(secondsWorked, percentDone) {
                 var hoursWorked = Math.floor(secondsWorked / 3600);
                 var minutesWorked = Math.floor((secondsWorked % 3600) / 60);
-                document.getElementById("pTotalTimeWorked").innerHTML = hoursWorked + " hours " + minutesWorked + " minutes " + (secondsWorked % 60) + " seconds";
+                if (percentDone <= 100) {
+                    document.getElementById("pTotalTimeWorked").innerHTML = hoursWorked + " hours " + minutesWorked + " minutes " + (secondsWorked % 60) + " seconds";
+                }
+
             }
 
             function updateTotalTimeRemaining(secondsWorked, hoursWorking) {
                 var secondsUntilFree = (hoursWorking * 3600) - secondsWorked;
                 var hoursUntilFree = Math.floor(secondsUntilFree / 3600);
                 var minutesUntilFree = Math.floor((secondsUntilFree % 3600) / 60);
-                document.getElementById("pTotalTimeRemaining").innerHTML = hoursUntilFree + " hours " + minutesUntilFree + " minutes " + (secondsUntilFree % 60) + " seconds";
+                if (secondsWorked <= (hoursWorking * 3600)) {
+                    document.getElementById("pTotalTimeRemaining").innerHTML = hoursUntilFree + " hours " + minutesUntilFree + " minutes " + (secondsUntilFree % 60) + " seconds";
+
+                }
 
             }
 
-            
+
 
 
         }
@@ -216,47 +224,47 @@
 
 
     <div class="grid-container" id="stats" style="display: none;">
-        <div>
-            
+        <div name="rectangle">
             <p>Money Made</p>
             <p id="pMoneySoFar"></p>
-        
         </div>
 
-        <div>
+        <div name="rectangle">
             <p>Percent Complete</p>
             <p id="pPercentDone"></p>
         </div>
 
-        <div>
+        <div name="rectangle">
             <p>Seconds Worked</p>
             <p id="pSecondsWorked"></p>
         </div>
 
-        <div>
+        <div name="rectangle">
             <p>Seconds Until Freedom</p>
             <p id="pSecondsUntilFreedom"></p>
         </div>
 
-        <div>
-            
+        <div name="rectangle">
+
             <div class="center" style="flex-direction: column;">
-                <button id="motivationButton" onclick="motivate()" style="font-size: 1.5vw; color: #f8f8f2; background-color: #44475a; border: none;">Motivate</button>
+                <button id="motivationButton" onclick="motivate()"
+                    style="font-size: 1.5vw; color: #f8f8f2; background:none; border: none;">Motivate</button>
             </div>
         </div>
 
-        <div>
+        <div name="rectangle">
             <div class="center">
-                <progress id="progressBar" value="0" max="100" style="width: 80%; height: 40%; position: inherit;"></progress>
+                <progress id="progressBar" value="0" max="100"
+                    style="width: 80%; height: 40%; position: inherit;"></progress>
             </div>
         </div>
 
-        <div>
+        <div name="rectangle">
             <p>Total Time Worked</p>
             <p id="pTotalTimeWorked"></p>
         </div>
 
-        <div>
+        <div name="rectangle">
             <p>Total Time Remaining</p>
             <p id="pTotalTimeRemaining"></p>
         </div>
@@ -275,7 +283,43 @@
             </div>
         </div>
 
-    </div>
+        <div>
+            <p>Background Color</p>
+            <input type="color" id="backColorPicker" value="#282a36" onchange="changeBGColor()">
+        </div>
+
+        <div>
+            <p>Text Color</p>
+            <input type="color" id="textColorPicker" value="#f8f8f2" onchange="changeTextColor()">
+
+        </div>
+
+        <div>
+            <div class="center">
+                <input type="color" id="rectangleColorPicker" value="#2b2c38" onchange="changeRectangleColor()">
+            </div>
+
+            <script>
+                function changeBGColor() {
+                    var color = document.getElementById("backColorPicker").value;
+                    document.body.style.backgroundColor = color;
+                }
+
+                function changeTextColor() {
+                    var color = document.getElementById("textColorPicker").value;
+                    document.body.style.color = color;
+                    document.getElementById("motivationButton").style.color = color;
+                }
+
+                function changeRectangleColor() {
+                    const collection = document.getElementsByName("rectangle");
+                    for (let i = 0; i < collection.length; i++) {
+                        collection[i].style.backgroundColor = document.getElementById("rectangleColorPicker").value;
+                    }
+                }
+            </script>
+
+        </div>
 
 </body>
 
@@ -284,38 +328,38 @@
 
 <script>
     function motivate() {
-                var motivation = Math.floor(Math.random() * 10);
-                console.log(motivation);
-                if (motivation == 0) {
-                    document.getElementById("motivationButton").innerHTM = "You are doing great!";
-                }
-                else if (motivation == 1) {
-                    document.getElementById("motivationButton").innerHTML = "You got this!";
-                }
-                else if (motivation == 2) {
-                    document.getElementById("motivationButton").innerHTML = "Fantastic!";
-                }
-                else if (motivation == 3) {
-                    document.getElementById("motivationButton").innerHTML = "Keep at it!";
-                }
-                else if (motivation == 4) {
-                    document.getElementById("motivationButton").innerHTML = "You're beautiful!";
-                }
-                else if (motivation == 5) {
-                    document.getElementById("motivationButton").innerHTML = "Onwards and upwards!";
-                }
-                else if (motivation == 6) {
-                    document.getElementById("motivationButton").innerHTML = "Perfection!";
-                }
-                else if (motivation == 7) {
-                    document.getElementById("motivationButton").innerHTML = "So good!";
-                }
-                else if (motivation == 8) {
-                    document.getElementById("motivationButton").innerHTML = "Great job!";
-                }
-                else if (motivation == 9) {
-                    document.getElementById("motivationButton").innerHTML = "I'm proud of you!";
-                }
+        var motivation = Math.floor(Math.random() * 10);
+        console.log(motivation);
+        if (motivation == 0) {
+            document.getElementById("motivationButton").innerHTM = "You are doing great!";
+        }
+        else if (motivation == 1) {
+            document.getElementById("motivationButton").innerHTML = "You got this!";
+        }
+        else if (motivation == 2) {
+            document.getElementById("motivationButton").innerHTML = "Fantastic!";
+        }
+        else if (motivation == 3) {
+            document.getElementById("motivationButton").innerHTML = "Keep at it!";
+        }
+        else if (motivation == 4) {
+            document.getElementById("motivationButton").innerHTML = "You're beautiful!";
+        }
+        else if (motivation == 5) {
+            document.getElementById("motivationButton").innerHTML = "Onwards and upwards!";
+        }
+        else if (motivation == 6) {
+            document.getElementById("motivationButton").innerHTML = "Perfection!";
+        }
+        else if (motivation == 7) {
+            document.getElementById("motivationButton").innerHTML = "So good!";
+        }
+        else if (motivation == 8) {
+            document.getElementById("motivationButton").innerHTML = "Great job!";
+        }
+        else if (motivation == 9) {
+            document.getElementById("motivationButton").innerHTML = "I'm proud of you!";
+        }
 
-            }
+    }
 </script>
