@@ -1,0 +1,38 @@
+body {
+    background-color: #2B2B2B;
+    color: #D9D9D9;
+    font-family: Arial, sans-serif;
+}
+
+a {
+    color: #9CDCFE;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #FFFFFF;
+}
+
+p {
+    line-height: 1.5;
+}
+
+button,
+input[type="submit"] {
+    background-color: #3C3C3C;
+    color: #D9D9D9;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #4C4C4C;
+}
+
+/* You can add more styles for other HTML elements as needed */
