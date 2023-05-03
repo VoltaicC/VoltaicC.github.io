@@ -23,6 +23,16 @@ a {
     color: #9CDCFE;
 }
 
+h1 {
+    /* change font size so each h1 takes up width of viewport */
+    font-size: 3vw;
+}
+h2{
+    font-size: 2vw;
+}
+input[type="text"] {
+    font-size: 3vw;
+}
 h1,
 h2,
 h3,
