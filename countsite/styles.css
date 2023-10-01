@@ -1,3 +1,9 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background-color: #1a1a1a;
     color: #ffffff;
@@ -6,15 +12,16 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+    min-height: 100vh; /* Use min-height instead of height */
 }
 
+#label {
+    margin-top: 1rem; /* Add some top margin to the title */
+}
 
 #countdown {
     font-size: 2rem;
-    margin: 2rem 0;
+    margin: 1rem 0; /* Adjust margin */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,10 +29,9 @@ body {
     text-align: center;
 }
 
-
 #countdown p {
     display: inline;
-    margin: 0 0.5rem;
+    margin: 0 0.25rem; /* Adjust margin */
 }
 
 /* Define the confetti animation */
@@ -46,3 +52,12 @@ body {
     animation: confetti-fall 4s linear infinite;
 }
 
+/* Media query for smaller screens (e.g., mobile devices) */
+@media (max-width: 768px) {
+    #countdown {
+        flex-direction: column;
+    }
+    #countdown p {
+        margin: 0.5rem 0; /* Adjust margin for mobile layout */
+    }
+}
