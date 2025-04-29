@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Update Sets</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <h1>Compare Dev vs. Prod Update Sets</h1>
+    <div class="toggle-container">
+        <label for="darkModeToggle">Dark Mode</label>
+        <input type="checkbox" id="darkModeToggle" checked>
+    </div>
+    <div class="container">
+        <div class="drop-area" id="dev-drop">
+            <h2>Drag & Drop Dev JSON</h2>
+            <input type="file" id="devFile" accept=".json">
+            <p id="devFileName" class="file-name"></p>
+        </div>
+        <div class="drop-area" id="prod-drop">
+            <h2>Drag & Drop Prod JSON</h2>
+            <input type="file" id="prodFile" accept=".json">
+            <p id="prodFileName" class="file-name"></p>
+        </div>
+    </div>
+    <button id="compareButton">Compare</button>
+    <button id="preserveButton" onclick="navigateToPreservePage()">Help Me Preserve These</button>
+    <div id="output"></div>
+    <button id="copyButton" style="display: none;">Copy Output</button>
+    <script src="script.js"></script>
+</body>
+</html>

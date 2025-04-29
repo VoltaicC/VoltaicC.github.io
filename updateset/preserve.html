@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preserve Update Sets</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <h1>Preserve Update Sets</h1>
+    <div class="preserve-options">
+        <button id="preserveAllButton">Preserve All</button>
+        <button id="preserveMineButton">Preserve Mine</button>
+    </div>
+    <div id="preserveSection" style="display: none;">
+        <button id="toggleAllButton">Toggle All</button>
+
+        <select id="createdByDropdown" style="display: none;"></select>
+        <div id="recordList"></div>
+        <button id="copySysIdsButton" style="display: none;">Copy Selected Sys IDs</button>
+    </div>
+    <script src="preserve.js"></script>
+</body>
+</html>
