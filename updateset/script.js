@@ -33,6 +33,11 @@ function compareFiles() {
 
     const groupedByCreatedBy = {};
     for (const record of devData.records) {
+        // Skip records with state = "ignore"
+        if (record.state === "ignore") {
+            continue;
+        }
+        
         const name = record.name || "No name found";
         const createdBy = record.sys_created_by || "Unknown";
 
