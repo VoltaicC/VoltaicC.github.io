@@ -24,21 +24,41 @@ function preserveAll() {
     const recordList = document.getElementById('recordList');
     recordList.innerHTML = '';  // Clear any previous content
     document.getElementById('createdByDropdown').style.display = 'none';
-    recordList.style.display = 'block';
+    recordList.style.display = 'inline-block';
+    recordList.style.textAlign = 'left';
+    recordList.style.maxWidth = '80%';
 
     for (const [createdBy, records] of Object.entries(preservationData)) {
-        // Add a section heading for "Created By" with spacing
+        // Add a section heading for "Created By" with spacing and toggle
         const sectionHeader = document.createElement('div');
-        sectionHeader.textContent = `Created By: ${createdBy}`;
         sectionHeader.style.fontWeight = 'bold';  // Make the createdBy header bold
         sectionHeader.style.marginTop = '20px';  // Add space above the section heading
         sectionHeader.style.marginBottom = '10px';  // Add space below the section heading
+        
+        // Create toggle checkbox for this person
+        const toggleCheckbox = document.createElement('input');
+        toggleCheckbox.type = 'checkbox';
+        toggleCheckbox.checked = true;
+        toggleCheckbox.className = 'person-toggle';
+        
+        const headerText = document.createTextNode(` Created By: ${createdBy}`);
+        
+        sectionHeader.appendChild(toggleCheckbox);
+        sectionHeader.appendChild(headerText);
         recordList.appendChild(sectionHeader);
 
         // Add each record under this heading
         records.forEach(record => {
-            const recordElement = createRecordCheckbox(record.sys_id, record.name);
+            const recordElement = createRecordCheckbox(record.sys_id, record.name, createdBy);
             recordList.appendChild(recordElement);
+        });
+        
+        // Add toggle functionality for this person's records
+        toggleCheckbox.addEventListener('change', (e) => {
+            const personRecords = recordList.querySelectorAll(`input[data-created-by="${createdBy}"]`);
+            personRecords.forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
         });
     }
 
@@ -72,20 +92,24 @@ function displayRecordsByCreator(creator) {
     const records = preservationData[creator] || [];
 
     records.forEach(record => {
-        const recordElement = createRecordCheckbox(record.sys_id, record.name);
+        const recordElement = createRecordCheckbox(record.sys_id, record.name, creator);
         recordList.appendChild(recordElement);
     });
     document.getElementById('copySysIdsButton').style.display = 'inline-block';
 }
 
-function createRecordCheckbox(sysId, name) {
+function createRecordCheckbox(sysId, name, createdBy) {
     const container = document.createElement('div');
+    container.style.marginLeft = '20px';
+    
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.value = sysId;
     checkbox.checked = true;  // Default all checkboxes to true initially
+    checkbox.setAttribute('data-created-by', createdBy);
+    
     const label = document.createElement('label');
-    label.textContent = name;
+    label.textContent = ` ${name}`;
 
     container.appendChild(checkbox);
     container.appendChild(label);
