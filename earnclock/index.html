@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EARNCLOCK — Live Earnings Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-mark">▶</span>
+        <span class="logo-text">EARNCLOCK</span>
+        <span class="logo-tag">v2.1</span>
+      </div>
+    </div>
+    <div class="header-center">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-label" id="statusLabel">IDLE</span>
+    </div>
+    <div class="header-right">
+      <div class="live-clock" id="liveClock">--:--:--</div>
+    </div>
+  </header>
+
+  <main class="dashboard">
+
+    <!-- BIG EARNINGS DISPLAY -->
+    <section class="earnings-hero">
+      <div class="earnings-label">TOTAL EARNED TODAY</div>
+      <div class="earnings-display">
+        <span class="currency">$</span>
+        <span class="earnings-value" id="earningsValue">0.00</span>
+      </div>
+      <div class="earnings-subtext">
+        <span id="hoursWorked">0h 0m 0s</span> at
+        <span id="rateDisplay">$0.00</span>/hr
+      </div>
+    </section>
+
+    <!-- PROGRESS TO END TIME -->
+    <section class="progress-section">
+      <div class="progress-header">
+        <span class="progress-label">DAY PROGRESS</span>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-glow" id="progressGlow"></div>
+      </div>
+      <div class="progress-times">
+        <span id="progressStart">--:--</span>
+        <span class="progress-remaining" id="timeRemaining">-- remaining</span>
+        <span id="progressEnd">--:--</span>
+      </div>
+    </section>
+
+    <!-- CONTROL PANEL -->
+    <section class="controls-grid">
+
+      <div class="control-card">
+        <label class="control-label">HOURLY RATE</label>
+        <div class="input-group">
+          <span class="input-prefix">$</span>
+          <input type="number" id="hourlyRate" class="control-input" placeholder="0.00" min="0" step="0.01" value="" />
+          <span class="input-suffix">/hr</span>
+        </div>
+      </div>
+
+      <div class="control-card">
+        <label class="control-label">START — DATE &amp; TIME</label>
+        <div class="datetime-row">
+          <div class="input-group input-group--grow">
+            <input type="date" id="startDate" class="control-input date-input" />
+          </div>
+          <div class="input-group">
+            <input type="time" id="startTime" class="control-input time-input" />
+          </div>
+        </div>
+        <div class="control-hint">Set earlier to backdate earnings</div>
+      </div>
+
+      <div class="control-card">
+        <label class="control-label">END — DATE &amp; TIME</label>
+        <div class="datetime-row">
+          <div class="input-group input-group--grow">
+            <input type="date" id="endDate" class="control-input date-input" />
+          </div>
+          <div class="input-group">
+            <input type="time" id="endTime" class="control-input time-input" />
+          </div>
+        </div>
+        <div class="control-hint">Tracks progress &amp; projected total</div>
+      </div>
+
+    </section>
+
+    <!-- ACTION BUTTONS -->
+    <section class="actions">
+      <button class="btn btn-start" id="btnStart">
+        <span class="btn-icon">▶</span> START SESSION
+      </button>
+      <button class="btn btn-stop" id="btnStop" disabled>
+        <span class="btn-icon">■</span> STOP SESSION
+      </button>
+      <button class="btn btn-reset" id="btnReset">
+        <span class="btn-icon">↺</span> RESET
+      </button>
+    </section>
+
+    <!-- STATS ROW -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">EARNED THIS MINUTE</div>
+        <div class="stat-value"><span class="currency-sm">$</span><span id="perMinute">0.00</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">PROJECTED TOTAL</div>
+        <div class="stat-value"><span class="currency-sm">$</span><span id="projectedTotal">0.00</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">SHIFT DURATION</div>
+        <div class="stat-value"><span id="shiftDuration">--h --m</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">SESSION TIME</div>
+        <div class="stat-value"><span id="sessionTime">00:00:00</span></div>
+      </div>
+    </section>
+
+    <!-- MINI LOG -->
+    <section class="log-section">
+      <div class="log-header">
+        <span class="log-title">// SESSION LOG</span>
+        <button class="log-clear" id="btnClearLog">CLEAR</button>
+      </div>
+      <div class="log-body" id="logBody">
+        <div class="log-entry log-entry--system">[ SYSTEM ] Dashboard initialized. Set your rate and press START.</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>EARNCLOCK DASHBOARD</span>
+    <span class="footer-sep">|</span>
+    <span>UPDATES EVERY 50ms</span>
+    <span class="footer-sep">|</span>
+    <span id="footerDate"></span>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
