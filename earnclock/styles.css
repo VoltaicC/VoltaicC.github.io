@@ -243,23 +243,21 @@ body {
 }
 
 .currency {
-  font-family: var(--font-display);
-  font-weight: 700;
+  font-family: var(--font-tech);
+  font-weight: 400;
   font-size: 2.5rem;
   color: var(--amber);
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   text-shadow: 0 0 30px var(--amber-glow-strong);
 }
 
 .earnings-value {
-  font-family: var(--font-display);
-  font-weight: 900;
+  font-family: var(--font-tech);
   font-size: 5.5rem;
   color: var(--amber);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   text-shadow: 0 0 60px var(--amber-glow-strong), 0 0 120px rgba(245, 166, 35, 0.15);
   transition: text-shadow 0.1s;
-  font-variant-numeric: tabular-nums;
 }
 
 .earnings-value.tick {
@@ -653,10 +651,11 @@ body {
 @media (max-width: 768px) {
   .header { padding: 0.75rem 1rem; }
   .live-clock { display: none; }
+  .logo-tag { display: none; }
   .dashboard { padding: 1rem 1rem 4rem; gap: 1rem; }
 
   .earnings-value { font-size: 3.5rem; }
-  .currency { font-size: 1.8rem; margin-top: 0.3rem; }
+  .currency { font-size: 1.8rem; margin-top: 0.4rem; }
 
   .controls-grid { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
