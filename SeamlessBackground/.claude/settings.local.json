@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"img\")",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

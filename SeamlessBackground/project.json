@@ -1,0 +1,65 @@
+{
+  "file": "index.html",
+  "type": "web",
+  "title": "Seamless Migration - Live Backdrop",
+  "description": "Animated brand backdrop for Seamless Migration LLC with a switchable pulsing network grid and flowing data-migration mode, or auto-cycle between both.",
+  "general": {
+    "properties": {
+      "mode": {
+        "text": "Background Style",
+        "type": "combo",
+        "value": "cycle",
+        "options": [
+          { "label": "Auto-cycle both", "value": "cycle" },
+          { "label": "Pulsing Network Grid", "value": "network" },
+          { "label": "Flowing Data Migration", "value": "flow" }
+        ]
+      },
+      "speed": {
+        "text": "Animation Speed",
+        "type": "slider",
+        "value": 1,
+        "min": 0.25,
+        "max": 2,
+        "step": 0.05
+      },
+      "density": {
+        "text": "Particle Density",
+        "type": "slider",
+        "value": 1,
+        "min": 0.4,
+        "max": 1.8,
+        "step": 0.05
+      },
+      "logoopacity": {
+        "text": "Watermark Logo Opacity (%)",
+        "type": "slider",
+        "value": 6,
+        "min": 0,
+        "max": 20,
+        "step": 1
+      },
+      "accentcolor": {
+        "text": "Accent Color",
+        "type": "color",
+        "value": "138 148 255"
+      },
+      "cornerlogoscale": {
+        "text": "Corner Logo Size (%)",
+        "type": "slider",
+        "value": 100,
+        "min": 40,
+        "max": 200,
+        "step": 5
+      },
+      "cornerlogovpos": {
+        "text": "Corner Logo Vertical Position",
+        "type": "slider",
+        "value": 3.2,
+        "min": 0,
+        "max": 85,
+        "step": 1
+      }
+    }
+  }
+}

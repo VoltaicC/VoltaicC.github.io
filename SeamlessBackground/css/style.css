@@ -1,0 +1,47 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #060814;
+}
+
+#bg {
+  display: block;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.corner-logo {
+  position: fixed;
+  right: 3.2vw;
+  bottom: calc(var(--corner-logo-vpos, 3.2) * 1vh);
+  width: clamp(
+    calc(120px * var(--corner-logo-scale, 1)),
+    calc(11vw * var(--corner-logo-scale, 1)),
+    calc(240px * var(--corner-logo-scale, 1))
+  );
+  height: auto;
+  opacity: 0.92;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.45));
+}
+
+#hint {
+  position: fixed;
+  left: 2vw;
+  bottom: 2vh;
+  color: rgba(255, 255, 255, 0.35);
+  font: 12px/1.4 "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Wallpaper Engine has no keyboard interaction in the live wallpaper context;
+   this hint only matters when previewing in a regular browser. */
